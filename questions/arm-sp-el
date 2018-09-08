@@ -1,0 +1,4 @@
+ldr x1, B
+msr SP_ELs, x1
+
+eret

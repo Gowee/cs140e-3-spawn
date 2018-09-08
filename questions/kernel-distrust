@@ -1,0 +1,1 @@
+Yes. The kernel controls almost everything, such as context-switch, virtual memory and scheduling. The process should certainly assume the kernel works well and reliably, which is the base that processes are running on.

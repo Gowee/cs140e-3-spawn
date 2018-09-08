@@ -1,0 +1,1 @@
+Allocate new memory, copy data from current stack into the new mem, deallocate current stack, and finally set stack ptr to the new mem.

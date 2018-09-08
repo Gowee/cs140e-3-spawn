@@ -1,0 +1,7 @@
+Pros:
+	Does not take up negative value, so the returned result can be more versatile.
+	With the fixed place of error code, the wrapping code can be decoupled/abstracted easier.
+
+Cons:
+	Needs extra registers.
+	

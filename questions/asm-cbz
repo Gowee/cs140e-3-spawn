@@ -1,0 +1,3 @@
+> Compare and Branch on Zero compares the value in a register with zero, and conditionally branches to a label at a PC-relative offset if the comparison is equal.
+; Usage maybe: 
+cbz REGISTER, LABEL

@@ -1,0 +1,1 @@
+When some other interrupt is being handled, which can prevent the timer interrupt used in sleep syscall be handled in time.

@@ -1,0 +1,5 @@
+1. They share a single stack pointer. So when there is scheduling and hence context switch, there may be data corruption.
+
+2. When they pop from the shared stack, they may get data totally different from what they pushed previously.
+
+3. The process should ensure there is no interruption when they pop/push (in pair) from/into the stack.

@@ -1,0 +1,1 @@
+Task switch happens not only at timer interrupt but also when the currently running task needs to wait for some event to proceed.

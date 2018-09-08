@@ -1,0 +1,72 @@
+10, 16: As is. But I cannot find any describitions on the meaning of bits of aff0 in those references.
+
+21: Load the address of the first instruction as the label _start into x1. x1 is expected to be used as the stack pointer for EL1 later.
+
+24: Get 2-3 bits of the CurrentEL system register by read, logical and and right shift, which is the current exception level. The result is stored in register x0.
+
+30: Compare x0 which stores current EL with the constant EL3. Proceed if it is equal (i.e. in EL3), otherwise branch to the instruction denoted by the label swith_to_el1.
+
+34(in EL3): 
+    > SCR_EL3
+    0: Non-secure bit. EL0 and EL1 are in Non-secure state, memory accesses from those exception levels cannot access Secure memory.
+    4-5: Reserved, RES1.
+    7: SMC instruction disable. The SMC instruction is UNDEFINED at all exception levels. At EL1, in the Non-secure state, the HCR_EL2.TSC bit has priority over this control. 
+    8: Hyp Call enable. The HVC instruction is enabled at EL1, EL2 or EL3.
+    10: Register width control for lower exception levels. The next lower level is AArch64.
+    
+38:
+    > SPSR_EL3
+    0: Used to select SP. 1 means the exception SP is determined by the EL. 0 means the SP is always SP0.
+    3: 0-3 denotes AArch64 state (Exception level and selected SP) that an exception was taken from. EL2 here. 
+    6: Mask FIQ.
+    7: Mask IRQ.
+    8: Mask SError.
+    9: Process state D mask. Watchpoint, Breakpoint, and Software Step exceptions targeted at the current Exception level are masked.
+    NOTE: SCR_EL3 is used to store SPSR when exception is taken to *EL3* (current level as the target instead of the source)! 
+
+    41: Store the instruction address at swith_to_el1 into ELR_EL3. eret to decrease priviledges to EL2.
+
+46(swith_to_el1): Compare x0 which stores current EL with the constant EL3. Proceed if it is not equal (not in EL1 yet), otherwise branch to the instruction denoted by label set_stack.
+
+50: As is. See also 21.
+
+// 51:
+
+53: 
+    CNTP: Counter-Timer Physical Counter
+    > CNTHCTL_EL2
+    Controls the generation of an event stream from the physical counter, and access from Non-secure EL1 to the physical counter and th e Non-secure EL1 physical timer.
+    0, EL1PCTEN: Traps Non-secure EL0 and EL1 accesses to the physical counter register to EL2.1 This control does not cause any instructions to be trapped.
+    1, EL1PCEN: Traps Non-secure EL0 and EL1 accesses to the physical timer registers to EL2. This control does not cause any instructions to be trapped.
+    To sum up, avoid some unwanted traps.
+    > CNTVOFF_EL2
+    Holds the 64-bit virtual offset. This is the offset between the physical count value visible in CNTPCT_EL0 and the virtual count value visible in CNTVCT_EL0.
+
+60: 
+    > HCR_EL2
+    bit 31, RW: The Execution state for EL1 is AArch64. The Execution state for EL0 is determined by the current value of PSTATE.nRW when executing at EL0.
+    bit 1, SWIO: Set/Way Invalidation Override. Causes Non-secure EL1 execution of the data cache invalidate by set/way instructions to perform a data cache clean and invalidate by set/way: 1 Data cache invalidate by set/way instructions perform a data cache clean and invalidate by set/way.
+66:
+    > CPTR_EL2
+    Controls trapping to EL2 for accesse s to CPACR, Trace functionality and registers associated with Advanced SIMD and Floating-point execution. Controls EL2 access to this functionality.
+    As is: don't trap accessing SVE registers
+72:
+    > SCTLR_EL1
+    System Control Register, EL1
+    Provides top level control of the system, including its memory system at EL1. SCTLR_EL1 is part of the Virtual memory control registers functional group.
+    11: Reserved, RES1.
+    20: Reserved: RES1.
+    22,23: Reserved: RES1.
+    28, 29: Reserved: RES1.
+77:
+    -
+80:
+    > SPSR_EL2
+    Simialr to SPSR_EL3 in L38.
+86(set_stack): As is. x1 is the address of the first instruction after the label _start, which is stored into x1 in L21.
+
+90:
+    As is. A bit of confusion so far.
+95:
+    Set zero (roughly be).
+102:

@@ -1,0 +1,7 @@
+0x400
+
+; Unable to understand "Same exception level when source SP = SP_EL0". ~~~EL0 -> EL0 ?~~~
+; > For exceptions taken to AArch64 state, the vector table provides the following information
+; > ... ...
+; > Information about the Exception level that the exception came from, combined with information about the stack pointer in use, and the state of the register file.
+; So: ELs -> Elx where s=x and ... ? Something like re-raised expections?

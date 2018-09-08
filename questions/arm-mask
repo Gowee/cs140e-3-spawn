@@ -1,0 +1,2 @@
+PSTATE.DAIF = 0b1101
+; guide 10.1 (10-4), I: IRQ

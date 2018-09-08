@@ -1,0 +1,3 @@
+Take the ready queue as the normal queue described above in the text. Every several normal queue polling, iterates the waiting queue for all ready task.
+
+This may hugely reduce latency of tasks that could be in waiting queue when there are plenty of tasks in the normal queue.

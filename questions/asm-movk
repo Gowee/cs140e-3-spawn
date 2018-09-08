@@ -1,0 +1,11 @@
+mov x0, #0xABCDE
+msr ELR_EL1, x0
+; Incorrent!
+; Cheat sheet:
+; > immediate must be 16 bits
+; So: 
+; > mov x0, #0xBCDE
+; > movk x0, #(0xA << 16)
+; > msr ELR_EL1, x0 
+; > Ref: https://github.com/jwmcglynn/cs140e/blob/master/3-spawn/questions/asm-movk
+
